@@ -1,0 +1,81 @@
+ use empdb;
+switched to db empdb
+
+> db;
+empdb
+
+> db.employee.insert({empid:1,name:{fname:'MACHO',lname:'MACHKAR'}  ,company_name:'INFOSIS',salary_no:31000,des:'tester',age:23,expertise:'web dev',DOB:new Date('2000-01-22'),email:'tejassmachkar@gmail.com',contact:9765222269,address:[{padd:{city:'pune',state:'maharashtra'}},{ladd:{city:'pune',state:'maharashtra'}}] });
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:2,name:{fname:'Handa',lname:'Chudail'}  ,company_name:'INFOSIS',salary_no:310000,des:'HR',age:45,expertise:'Recruitment',DOB:new Date('2000-03-15'),email:'chudailINC@gmail.com',contact:8765222269,address:[{padd:{city:'Panaji',state:'Goa'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:3,name:{fname:'Sumedh',lname:'Ovhal'}  ,company_name:'TCS',salary_no:21000,des:'Tester',age:25,expertise:'Sympathy Gainer',DOB:new Date('2000-02-06'),email:'sumedh@gmail.com',contact:8765222279,address:[{padd:{city:'Morocco',state:'Uganda'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:4,name:{fname:'Shabbir',lname:'kanchwala'}  ,company_name:'TCS',salary_no:210000,des:'Developer',age:28,expertise:'managing ppl',DOB:new Date('2000-11-25'),email:'shabbir@gmail.com',contact:8775222279,address:[{padd:{city:'Al habibi',state:'Jordan'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:5,name:{fname:'Ankita',lname:'Zadoo'}  ,company_name:'Infosys',salary_no:21000,des:'Developer',age:44,expertise:'managing ppl',DOB:new Date('2000-02-29'),email:'ankita@gmail.com',contact:8775223279,address:[{padd:{city:'City',state:'Jordan'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:6,name:{fname:'Shreya',lname:'Kashid'}  ,company_name:'Infosys',salary_no:50000,des:'Senior Developer',age:37,expertise:'completion',DOB:new Date('2000-11-04'),email:'shreya@gmail.com',contact:8775225679,address:[{padd:{city:'satara',state:'maharashtra'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:7,name:{fname:'Sayali',lname:'Ovhal'}  ,company_name:'Infosys',salary_no:51000,des:'Comic Relief',age:34,expertise:'Talking',DOB:new Date('2000-10-19'),email:'tatti@gmail.com',contact:8755225679,address:[{padd:{city:'Dream City',state:'Mars'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:8,name:{fname:'Atulya',lname:'Machkar'}  ,company_name:'6th floor',salary_no:51000,des:'senior aashiq',age:56,expertise:'loving macho',DOB:new Date('2000-12-11'),email:'tulyaaa@gmail.com',contact:8755225879,address:[{padd:{city:'kochin',state:'kerela'}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:9,name:{fname:'Kaushik',lname:'Oswal'}  ,company_name:'ground floor',salary_no:21000,des:'senior possesive aashiq',age:15,expertise:'loving hansa',DOB:new Date('2000-12-11'),email:'Oswal@gmail.com',contact:8755225479,address:[{padd:{city:'Mirzapur',state:'UP',Pin_code:411101}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.insert({empid:10,name:{fname:'sanyukta',lname:'adsule'}  ,company_name:'serum',salary_no:11999,des:'elegant lady',age:21,expertise:'rejecting macho',DOB:new Date('2000-10-23'),email:'sanyuuuu@gmail.com',contact:8755225879,address:[{padd:{city:'pune',state:'Maharashtra',Pin_code:411014}},{ladd:{city:'pune',state:'maharashtra'}}]});
+WriteResult({ "nInserted" : 1 })
+
+> db.employee.find({des:'Developer',salary_no:{$gt:30000}}).pretty();
+{
+        "_id" : ObjectId("5fcb655be9ab1d1f7f691193"),
+        "empid" : 4,
+        "name" : {
+                "fname" : "Shabbir",
+                "lname" : "kanchwala"
+        },
+        "company_name" : "TCS",
+        "salary_no" : 210000,
+        "des" : "Developer",
+        "age" : 28,
+        "expertise" : "managing ppl",
+        "DOB" : ISODate("2000-11-25T00:00:00Z"),
+        "email" : "shabbir@gmail.com",
+        "contact" : 8775222279,
+        "address" : [
+                {
+                        "padd" : {
+                                "city" : "Al habibi",
+                                "state" : "Jordan"
+                        }
+                },
+                {
+                        "ladd" : {
+                                "city" : "pune",
+                                "state" : "maharashtra"
+                        }
+                }
+        ]
+}
+
+> db.employee.find({des:'Developer',salary_no:{$gt:30000}});
+
+> db.employee.update({company_name:'TCS'},{$set: {salary_no:2000}});
+
+> db.employee.find({des:{$ne:'Developer'}}).pretty();
+
+> db.employee.find({company_name:'Infosys'},{empid:1,name:1,address:1,des:1,company_name:1}).pretty();
+
+> db.employee.find({$or: [{des:'Developer'},{des:'Tester'}]}).pretty();
+
+> db.employee.find({expertise:{$in:['Recruitment','managing ppl']}}).pretty();
+
+> db.employee.deleteOne({des:'Developer'}); OR db.employee.remove({des:'Developer'},1);

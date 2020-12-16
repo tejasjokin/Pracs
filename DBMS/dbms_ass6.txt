@@ -1,0 +1,34 @@
+create table O_rollno(
+    roll_no number primary key,
+    name varchar(25) not null
+);
+
+create table N_rollno(
+    roll_no number primary key,
+    name varchar(25) not null
+);
+
+insert into O_rollno values (23, 'Tejas');
+insert into O_rollno values (25, 'Sumedh');
+insert into N_rollno values (23, 'Tejas');
+insert into N_rollno values (25, 'Sumedh');
+insert into O_rollno values (35, 'Harshika');
+insert into O_rollno values (45, 'Tanmay');
+
+DECLARE
+    no1 number;
+    temp O_rollno%ROWTYPE;
+    CURSOR c_roll(no1 number) is
+    SELECT * from O_rollno where O_rollno.roll_no > no1
+    MINUS
+    SELECT * from N_rollno;
+BEGIN
+    no1 := 30;
+    OPEN c_roll(no1);
+    LOOP
+    FETCH c_roll into temp;
+    EXIT WHEN c_roll%notfound;
+    INSERT into N_rollno values (temp.roll_no, temp.name);
+    END LOOP;
+    CLOSE c_roll;
+END;

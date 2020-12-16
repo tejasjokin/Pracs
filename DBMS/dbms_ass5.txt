@@ -1,0 +1,87 @@
+create table borrower(
+    roll_no integer primary key,
+    name varchar2(20) not null,
+    dateOfIssue date not null,
+    nameOfBook varchar(15) not null,
+    status varchar(1) not null
+    );
+    
+create table fine(
+    roll_no integer not null,
+    accessDate date not null,
+    amount number not null
+    );
+    
+Insert into borrower values (23, 'Tejas', '22-OCT-2020', 'Let us C', 'I');
+Insert into borrower values (45, 'Tanmay', '21-NOV-2020', 'Let us C++', 'I');
+Insert into borrower values (35, 'Harshika', '18-FEB-2020', 'Meluha', 'I');
+Insert into borrower values (25, 'Sumedh', '01-NOV-2020', 'Deception Point', 'I');
+
+Insert into fine values (23, '23-NOV-2020', 0);
+Insert into fine values (45, '23-NOV-2020', 0);
+Insert into fine values (35, '23-NOV-2020', 0);
+Insert into fine values (25, '23-NOV-2020', 0);
+
+
+DECLARE
+    dateIssue date;
+    dateCurrent date;
+    dateDiff integer;
+    choice integer;
+    c_roll_no integer := 23;
+    c_name varchar(20);
+    c_amount integer;
+    c_status varchar(1);
+BEGIN
+    c_amount := 0;
+    choice := 2;
+    CASE choice
+        WHEN 1 then
+            Select dateOfIssue,name into dateIssue,c_name from borrower where roll_no=c_roll_no and status = 'I' ;
+            dbms_output.put_line('Checking fine for '||c_name);
+            dateCurrent := SYSDATE();
+            dateDiff := dateCurrent-dateIssue;
+            if dateDiff between 15 and 30 then
+                c_amount := dateDiff*5;
+                dbms_output.put_line('Fine: '||c_amount||'Rs');
+                update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+            elsif dateDiff>30 then
+                c_amount := 30*5;
+                c_amount := c_amount + (dateDiff-30)*50;
+                dbms_output.put_line('Fine: '||c_amount||'Rs');
+                update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+            else
+                c_amount := 0;
+                dbms_output.put_line('Fine: '||c_amount||'Rs');
+                update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+            END if;
+        WHEN 2 then
+            Select dateOfIssue,name,status into dateIssue,c_name,c_status from borrower where roll_no=c_roll_no;
+            if c_status LIKE 'I' then
+                dbms_output.put_line(c_name||' submitting book back.');
+                dbms_output.put_line('Checking fine for '||c_name);
+                dateCurrent := SYSDATE();
+                dateDiff := dateCurrent-dateIssue;
+                if dateDiff between 15 and 30 then
+                    c_amount := dateDiff*5;
+                    dbms_output.put_line('Fine: '||c_amount||'Rs');
+                    update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+                    update borrower set status = 'S' where roll_no = c_roll_no;
+                elsif dateDiff>30 then
+                    c_amount := 30*5;
+                    c_amount := c_amount + (dateDiff-30)*50;
+                    dbms_output.put_line('Fine: '||c_amount||'Rs');
+                    update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+                    update borrower set status = 'S' where roll_no = c_roll_no;
+                else
+                    c_amount := 0;
+                    dbms_output.put_line('Fine: '||c_amount||'Rs');
+                    update fine set accessDate = dateCurrent, amount = c_amount where roll_no = c_roll_no;
+                    update borrower set status = 'S' where roll_no = c_roll_no;
+                END if;
+            else
+                dbms_output.put_line('No book issued currently');
+            END IF;
+        else dbms_output.put_line('No such choice');
+    END CASE;
+END;
