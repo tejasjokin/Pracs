@@ -1,16 +1,165 @@
+Table Structure------------------------------------------------
+
+select * from account;
++-------------+--------------+---------+
+| Acc_no      | branch_name  | balance |
++-------------+--------------+---------+
+| C8382381670 | Akurdi       |   13400 |
+| C8382381671 | Bund Garden  |   10000 |
+| C8392380567 | Vishrantwadi |    5500 |
+| C8392380568 | Viman Nagar  |    6500 |
+| C8392380570 | Akurdi       |   12500 |
+| C8392380670 | Akurdi       |   10500 |
+| C8392381670 | Dhanori      |   10500 |
+| C8482381665 | Bund Garden  |   55004 |
+| C8482381671 | Akurdi       |   50000 |
+| C8482381765 | Viman Nagar  |   75004 |
+| C8482381766 | Nigdi        |   34000 |
++-------------+--------------+---------+
+
+select * from branch;
++--------------+------------------+----------+
+| branch_name  | branch_city      | assets   |
++--------------+------------------+----------+
+| Akurdi       | Pimpri-Chinchwad |  6000000 |
+| Bund Garden  | Pune             | 12000000 |
+| Dhanori      | Mumbai           |  8000000 |
+| Nigdi        | Pune             |   120000 |
+| Viman Nagar  | Mumbai           | 13000000 |
+| Vishrantwadi | Pune             |  9000000 |
++--------------+------------------+----------+
+
+select * from customer;
++-----------+----------------+------------------+
+| cust_name | cust_street    | cust_city        |
++-----------+----------------+------------------+
+| Baljeet   | Station Road   | Pimpri-Chinchwad |
+| Harshika  | Symboisis Road | Pune             |
+| Kimaya    | Virar Road     | Mumbai           |
+| Nachiket  | SNT Road       | Pimpri-Chinchwad |
+| Noopur    | SNT Road       | Pimpri-Chinchwad |
+| Noopur    | Station Road   | Pimpri-Chinchwad |
+| Rajeev    | Marine Drive   | Mumbai           |
+| Sherlock  | 221B-Baker Str | London           |
+| Shyam     | Denshaw Road   | Mumbai           |
+| Soham     | Law clg Road   | Pune             |
+| Tejas     | Porwal Road    | Pune             |
++-----------+----------------+------------------+
+
+select * from depositor;
++-----------+-------------+
+| cust_name | Acc_no      |
++-----------+-------------+
+| Shyam     | C8482381765 |
+| Nachiket  | C8392380670 |
+| Noopur    | C8392380570 |
+| Soham     | C8382381671 |
+| Rajeev    | C8382381670 |
+| Tejas     | C8392380567 |
+| Harshika  | C8392380568 |
+| Rajeev    | C8392381670 |
+| Abhish    | C8482381671 |
+| Sherlock  | C8482381766 |
++-----------+-------------+
+
+select * from loan;
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan125 | Akurdi      |  15000 |
+| loan126 | Akurdi      |  11000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+
+select * from borrower;
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| Shyam     | loan123 |
+| Soham     | loan124 |
+| Noopur    | loan125 |
+| Abhish    | loan126 |
+| Sumedh    | loan127 |
++-----------+---------+
+
+--------------------------------------------------------------------------
+
 1.SELECT distinct branch_name from loan;
+Output:
++-------------+
+| branch_name |
++-------------+
+| Viman Nagar |
+| Bund Garden |
+| Akurdi      |
++-------------+
+--------------------------------------------------------------------------
 
 2.SELECT loan_no from Loan where branch_name = 'Akurdi' and amount>12000;
+Output:
++---------+
+| loan_no |
++---------+
+| loan125 |
++---------+
+--------------------------------------------------------------------------
 
 3.SELECT Borrower.cust_name, Borrowe.loan_no, Loan.amount from Borrower JOIN Loan ON Borrower.loan_no = Loan.loan_no;
+Output:
++-----------+---------+--------+
+| cust_name | loan_no | amount |
++-----------+---------+--------+
+| Shyam     | loan123 |  35000 |
+| Soham     | loan124 |  40000 |
+| Noopur    | loan125 |  15000 |
+| Abhish    | loan126 |  11000 |
+| Sumedh    | loan127 |  45000 |
++-----------+---------+--------+
+--------------------------------------------------------------------------
 
 4.SELECT Borrower.cust_name from Borrower JOIN Loan ON Borrower.Loan_no = Loan.Loan_no where Loan.branch_name='Akurdi' order by Borrower.cust_name asc;
+Output:
++-----------+
+| cust_name |
++-----------+
+| Abhish    |
+| Noopur    |
++-----------+
+--------------------------------------------------------------------------
 
 5.SELECT cust_name from Depositor
 UNION
 SELECT cust_name from Borrower;
+Output:
++-----------+
+| cust_name |
++-----------+
+| Shyam     |
+| Nachiket  |
+| Noopur    |
+| Soham     |
+| Rajeev    |
+| Tejas     |
+| Harshika  |
+| Abhish    |
+| Sherlock  |
+| Sumedh    |
++-----------+
+--------------------------------------------------------------------------
 
 6.SELECT Borrower.cust_name from Borrower JOIN Depositor ON Borrower.cust_name = Depositor.cust_name;
+Output:
++-----------+
+| cust_name |
++-----------+
+| Shyam     |
+| Noopur    |
+| Soham     |
+| Abhish    |
++-----------+
+--------------------------------------------------------------------------
 
 7.SELECT cust_name from Depositor
 LEFT JOIN
@@ -18,21 +167,190 @@ Borrower USING(cust_name)
 WHERE Borrower.cust_name IS NULL;
 or
 SELECT cust_name from Depositor where  cust_name NOT IN (SELECT cust_name from Borrower);
+Output:
++-----------+
+| cust_name |
++-----------+
+| Nachiket  |
+| Rajeev    |
+| Tejas     |
+| Harshika  |
+| Rajeev    |
+| Sherlock  |
++-----------+
+--------------------------------------------------------------------------
 
 8.SELECT AVG(balance) from Account WHERE branch_name = 'Akurdi';
+Output:
++--------------+
+| AVG(balance) |
++--------------+
+|   21600.0000 |
++--------------+
+--------------------------------------------------------------------------
 
 9.SELECT AVG(balance) as Avg,branch_name from Account group by branch_name;
+Output:
++------------+--------------+
+| Avg        | branch_name  |
++------------+--------------+
+| 21600.0000 | Akurdi       |
+| 32502.0000 | Bund Garden  |
+|  5500.0000 | Vishrantwadi |
+| 40752.0000 | Viman Nagar  |
+| 10500.0000 | Dhanori      |
+| 34000.0000 | Nigdi        |
++------------+--------------+
+--------------------------------------------------------------------------
 
 10.SELECT COUNT(Depositor.Acc_no) as No_of_Depositor, Account.branch_name from Depositor JOIN Account ON Depositor.Acc_no=Account.Acc_no group by Account.branch_name;
+Output:
++-----------------+--------------+
+| No_of_Depositor | branch_name  |
++-----------------+--------------+
+|               2 | Viman Nagar  |
+|               4 | Akurdi       |
+|               1 | Bund Garden  |
+|               1 | Vishrantwadi |
+|               1 | Dhanori      |
+|               1 | Nigdi        |
++-----------------+--------------+
+--------------------------------------------------------------------------
 
 11.SELECT branch_name from Account group by branch_name HAVING AVG(balance)>12000;
+Output:
++-------------+
+| branch_name |
++-------------+
+| Akurdi      |
+| Bund Garden |
+| Viman Nagar |
+| Nigdi       |
++-------------+
+--------------------------------------------------------------------------
 
 12.SELECT COUNT(*) from customer;
+Output:
++----------+
+| COUNT(*) |
++----------+
+|       11 |
++----------+
+--------------------------------------------------------------------------
 
 13.SELECT SUM(amount) from loan;
+Output:
++-------------+
+| SUM(amount) |
++-------------+
+|      146000 |
++-------------+
+--------------------------------------------------------------------------
 
 14.DELETE from Loan where amount BETWEEN 10000 AND 30000;
+Table Before:
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan125 | Akurdi      |  15000 |
+| loan126 | Akurdi      |  11000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+Table After:
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+Output:
+Query OK, 2 rows affected (0.20 sec)
+--------------------------------------------------------------------------
 
 15.DELETE from Branch,Loan,Account where amount branch_name='Nigdi'; 
-
-//16.CREATE VIEW cust as SELECT * from customer;
+Table before:
+Account:-+-------------+--------------+---------+
+| Acc_no      | branch_name  | balance |
++-------------+--------------+---------+
+| C8382381670 | Akurdi       |   13400 |
+| C8382381671 | Bund Garden  |   10000 |
+| C8392380567 | Vishrantwadi |    5500 |
+| C8392380568 | Viman Nagar  |    6500 |
+| C8392380570 | Akurdi       |   12500 |
+| C8392380670 | Akurdi       |   10500 |
+| C8392381670 | Dhanori      |   10500 |
+| C8482381665 | Bund Garden  |   55004 |
+| C8482381671 | Akurdi       |   50000 |
+| C8482381765 | Viman Nagar  |   75004 |
+| C8482381766 | Nigdi        |   34000 |
++-------------+--------------+---------+
+Branch:+--------------+------------------+----------+
+| branch_name  | branch_city      | assets   |
++--------------+------------------+----------+
+| Akurdi       | Pimpri-Chinchwad |  6000000 |
+| Bund Garden  | Pune             | 12000000 |
+| Dhanori      | Mumbai           |  8000000 |
+| Nigdi        | Pune             |   120000 |
+| Viman Nagar  | Mumbai           | 13000000 |
+| Vishrantwadi | Pune             |  9000000 |
++--------------+------------------+----------+
+Loan:+---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+Tables After:
+Account:+-------------+--------------+---------+
+| Acc_no      | branch_name  | balance |
++-------------+--------------+---------+
+| C8382381670 | Akurdi       |   13400 |
+| C8382381671 | Bund Garden  |   10000 |
+| C8392380567 | Vishrantwadi |    5500 |
+| C8392380568 | Viman Nagar  |    6500 |
+| C8392380570 | Akurdi       |   12500 |
+| C8392380670 | Akurdi       |   10500 |
+| C8392381670 | Dhanori      |   10500 |
+| C8482381665 | Bund Garden  |   55004 |
+| C8482381671 | Akurdi       |   50000 |
+| C8482381765 | Viman Nagar  |   75004 |
++-------------+--------------+---------+
+Branch:+--------------+------------------+----------+
+| branch_name  | branch_city      | assets   |
++--------------+------------------+----------+
+| Akurdi       | Pimpri-Chinchwad |  6000000 |
+| Bund Garden  | Pune             | 12000000 |
+| Dhanori      | Mumbai           |  8000000 |
+| Viman Nagar  | Mumbai           | 13000000 |
+| Vishrantwadi | Pune             |  9000000 |
++--------------+------------------+----------+
+Loan:+---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+--------------------------------------------------------------------------
+16.CREATE VIEW cust as SELECT * from customer;
+Select * from Cust;
+Output:
++-----------+----------------+------------------+
+| cust_name | cust_street    | cust_city        |
++-----------+----------------+------------------+
+| Baljeet   | Station Road   | Pimpri-Chinchwad |
+| Harshika  | Symboisis Road | Pune             |
+| Kimaya    | Virar Road     | Mumbai           |
+| Nachiket  | SNT Road       | Pimpri-Chinchwad |
+| Noopur    | SNT Road       | Pimpri-Chinchwad |
+| Noopur    | Station Road   | Pimpri-Chinchwad |
+| Rajeev    | Marine Drive   | Mumbai           |
+| Sherlock  | 221B-Baker Str | London           |
+| Shyam     | Denshaw Road   | Mumbai           |
+| Soham     | Law clg Road   | Pune             |
+| Tejas     | Porwal Road    | Pune             |
++-----------+----------------+------------------+
