@@ -1,10 +1,10 @@
-1.SELECT distinct branch_name from branch;
+1.SELECT distinct branch_name from loan;
 
 2.SELECT loan_no from Loan where branch_name = 'Akurdi' and amount>12000;
 
 3.SELECT Borrower.cust_name, Borrowe.loan_no, Loan.amount from Borrower JOIN Loan ON Borrower.loan_no = Loan.loan_no;
 
-4.SELECT Borrower.cust_name from Borrower JOIN Loan ON Borrower.Loan_no = Loan.Loan_no where Loan.branch_name='Akurdi' order by Loan.branch_name;
+4.SELECT Borrower.cust_name from Borrower JOIN Loan ON Borrower.Loan_no = Loan.Loan_no where Loan.branch_name='Akurdi' order by Borrower.cust_name asc;
 
 5.SELECT cust_name from Depositor
 UNION
@@ -16,6 +16,8 @@ SELECT cust_name from Borrower;
 LEFT JOIN
 Borrower USING(cust_name)
 WHERE Borrower.cust_name IS NULL;
+or
+SELECT cust_name from Depositor where  cust_name NOT IN (SELECT cust_name from Borrower);
 
 8.SELECT AVG(balance) from Account WHERE branch_name = 'Akurdi';
 
@@ -31,4 +33,6 @@ WHERE Borrower.cust_name IS NULL;
 
 14.DELETE from Loan where amount BETWEEN 10000 AND 30000;
 
-15.CREATE VIEW cust as SELECT * from customer;
+15.DELETE from Branch,Loan,Account where amount branch_name='Nigdi'; 
+
+//16.CREATE VIEW cust as SELECT * from customer;
