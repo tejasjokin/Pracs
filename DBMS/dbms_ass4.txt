@@ -1,11 +1,146 @@
-1.Select add1,add2,state,city,pincode from add_dets where cust_no = (select cust_no from cust_mer where fname="xyz" and lname="pqr");
+1.
+select * from cust_mer;
++---------+----------+---------+
+| cust_no | fname    | lname   |
++---------+----------+---------+
+|      23 | xyz      | pqr     |
+|      24 | Tejas    | Machkar |
+|      35 | Harshika | Mishra  |
++---------+----------+---------+
+select * from add_dets;
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+| cust_no | add1                         | add2                          | state         | city     | pincode |
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+|      23 | Goodwill Society Porwal Road | Dhanori Pune-411007           | Maharashtra   | Pune     | 411007  |
+|      24 | Pratik Nagar society         | Vishrantwadi Pune-411006      | Maharashtra   | Pune     | 411006  |
+|      35 | Kaalin wada Sr-102           | Santosh Nagar Mirzapur-611015 | Uttar Pradesh | Mirzapur | 411015  |
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+Select add1,add2,state,city,pincode from add_dets where cust_no = (select cust_no from cust_mer where fname="xyz" and lname="pqr");
+Output:
++------------------------------+---------------------+-------------+------+---------+
+| add1                         | add2                | state       | city | pincode |
++------------------------------+---------------------+-------------+------+---------+
+| Goodwill Society Porwal Road | Dhanori Pune-411007 | Maharashtra | Pune | 411007  |
++------------------------------+---------------------+-------------+------+---------+
+------------------------------------------------------------------------------------------
 
-2.select fname, lname from cust_mer where cust_no=(select cust_no from acc_fd_cust_dets where acc_fd_no = (Select acc_fd_no from fd_dets where amount>5000));
+2.
+select * from cust_mer;
++---------+----------+---------+
+| cust_no | fname    | lname   |
++---------+----------+---------+
+|      23 | xyz      | pqr     |
+|      24 | Tejas    | Machkar |
+|      35 | Harshika | Mishra  |
++---------+----------+---------+
+select * from acc_fd_cust_dets;
++---------+-----------+
+| cust_no | acc_fd_no |
++---------+-----------+
+|      24 |         1 |
+|      35 |         2 |
++---------+-----------+
+select * from fd_dets;
++-----------+----------+--------+
+| acc_fd_no | fd_sr_no | amount |
++-----------+----------+--------+
+|         1 |        1 |   4000 |
+|         2 |        1 |  10000 |
++-----------+----------+--------+
+select fname, lname from cust_mer where cust_no=(select cust_no from acc_fd_cust_dets where acc_fd_no = (Select acc_fd_no from fd_dets where amount>5000));
+Output:
++----------+--------+
+| fname    | lname  |
++----------+--------+
+| Harshika | Mishra |
++----------+--------+
+------------------------------------------------------------------------------------------
 
-3.Select emp_mstr.*,branch_mstr.name from emp_mstr join branch_mstr on emp_mstr.branchno=branch_mstr.branchno;
 
-4.select emp_mstr.empno,emp_mstr.fname,emp_mstr.mname,emp_mstr.lname,cntc_dets.cntc_type,cntc_dets.cntc_data from emp_mstr right join cntc_dets on emp_mstr.empno=cntc_dets.empno;
+3.
+select * from emp_mstr;
++-------+----------+----------+---------+----------+---------------+----------+
+| empno | fname    | mname    | lname   | dept     | desg          | branchno |
++-------+----------+----------+---------+----------+---------------+----------+
+|     1 | Tejas    | Rajesh   | Machkar | Computer | Manager       |        2 |
+|     2 | Harshika | Suresh   | Mishra  | Computer | Senior Dev    |        2 |
+|     3 | Sumedh   | Ramesh   | Ovhal   | HR       | Recruiter     |        1 |
+|     4 | Sayali   | Shailesh | Shinde  | HR       | Party planner |        1 |
++-------+----------+----------+---------+----------+---------------+----------+
+select * from branch_mstr;
++----------+---------+
+| branchno | name    |
++----------+---------+
+|        1 | Denmark |
+|        2 | Sydney  |
++----------+---------+
+Select emp_mstr.*,branch_mstr.name from emp_mstr join branch_mstr on emp_mstr.branchno=branch_mstr.branchno;
+Output:
++-------+----------+----------+---------+----------+---------------+----------+---------+
+| empno | fname    | mname    | lname   | dept     | desg          | branchno | name    |
++-------+----------+----------+---------+----------+---------------+----------+---------+
+|     1 | Tejas    | Rajesh   | Machkar | Computer | Manager       |        2 | Sydney  |
+|     2 | Harshika | Suresh   | Mishra  | Computer | Senior Dev    |        2 | Sydney  |
+|     3 | Sumedh   | Ramesh   | Ovhal   | HR       | Recruiter     |        1 | Denmark |
+|     4 | Sayali   | Shailesh | Shinde  | HR       | Party planner |        1 | Denmark |
++-------+----------+----------+---------+----------+---------------+----------+---------+
+------------------------------------------------------------------------------------------
 
-5.select fname,lname from cust_mer where cust_no in(select cust_no from add_dets where pincode not in (select pincode from branch_add_dets));
+4.
+select * from emp_mstr;
++-------+----------+----------+---------+----------+---------------+----------+
+| empno | fname    | mname    | lname   | dept     | desg          | branchno |
++-------+----------+----------+---------+----------+---------------+----------+
+|     1 | Tejas    | Rajesh   | Machkar | Computer | Manager       |        2 |
+|     2 | Harshika | Suresh   | Mishra  | Computer | Senior Dev    |        2 |
+|     3 | Sumedh   | Ramesh   | Ovhal   | HR       | Recruiter     |        1 |
+|     4 | Sayali   | Shailesh | Shinde  | HR       | Party planner |        1 |
++-------+----------+----------+---------+----------+---------------+----------+
+select * from cntc_dets;
++-------+-----------+------------+
+| empno | cntc_type | cntc_data  |
++-------+-----------+------------+
+|     1 | Mobile    | 9764661522 |
+|     2 | email     | hansa.mail |
+|     3 | Mobile    | 9654234521 |
+|     4 | mail      | saya.mail  |
++-------+-----------+------------+
+select emp_mstr.empno,emp_mstr.fname,emp_mstr.mname,emp_mstr.lname,cntc_dets.cntc_type,cntc_dets.cntc_data from emp_mstr right join cntc_dets on emp_mstr.empno=cntc_dets.empno;
+Output:
++-------+----------+----------+---------+-----------+------------+
+| empno | fname    | mname    | lname   | cntc_type | cntc_data  |
++-------+----------+----------+---------+-----------+------------+
+|     1 | Tejas    | Rajesh   | Machkar | Mobile    | 9764661522 |
+|     2 | Harshika | Suresh   | Mishra  | email     | hansa.mail |
+|     3 | Sumedh   | Ramesh   | Ovhal   | Mobile    | 9654234521 |
+|     4 | Sayali   | Shailesh | Shinde  | mail      | saya.mail  |
++-------+----------+----------+---------+-----------+------------+
+------------------------------------------------------------------------------------------
+
+5.
+select * from cust_mer;
++---------+----------+---------+
+| cust_no | fname    | lname   |
++---------+----------+---------+
+|      23 | xyz      | pqr     |
+|      24 | Tejas    | Machkar |
+|      35 | Harshika | Mishra  |
++---------+----------+---------+
+select * from add_dets;
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+| cust_no | add1                         | add2                          | state         | city     | pincode |
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+|      23 | Goodwill Society Porwal Road | Dhanori Pune-411007           | Maharashtra   | Pune     | 411007  |
+|      24 | Pratik Nagar society         | Vishrantwadi Pune-411006      | Maharashtra   | Pune     | 411006  |
+|      35 | Kaalin wada Sr-102           | Santosh Nagar Mirzapur-611015 | Uttar Pradesh | Mirzapur | 411015  |
++---------+------------------------------+-------------------------------+---------------+----------+---------+
+select fname,lname from cust_mer where cust_no in(select cust_no from add_dets where pincode not in (select pincode from branch_add_dets));
+Output:
++----------+--------+
+| fname    | lname  |
++----------+--------+
+| Harshika | Mishra |
++----------+--------+
+------------------------------------------------------------------------------------------
 
 6.
