@@ -1,5 +1,7 @@
 -------------------------------------A PART------------------------------------------------------ 
-1)
+*COLLECTION SAME AS FIRST ASSIGNMENT*
+
+1)Return Designation with Total Salary is Above 200000
 db.employee.find({salary_no:{$gt:20000}},{'des':true,'_id':false}).pretty();
 { "des" : "tester" }
 { "des" : "HR" }
@@ -11,18 +13,18 @@ db.employee.find({salary_no:{$gt:20000}},{'des':true,'_id':false}).pretty();
 { "des" : "Developer" }
 { "des" : "Senior Developer" }
 
-2)
+2)Find Employee with Total Salary for Each City with Designation="DBA"
 db.employee.aggregate([{$match:{des:"tester"}},{$group:{_id:"$address.padd.city",total:{$sum:"$salary_no"}}}]);
 { "_id" : [ "pune" ], "total" : 42999 }
 { "_id" : [ "Dream City" ], "total" : 51000 }
 
-3)
- db.employee.aggregate([{$match:{des:"tester"}},{$group:{_id:"$company_name",total:{$sum:"$salary_no"}}}]);
+3) Find Total Salary of Employee with Designation="DBA" for Each Company
+db.employee.aggregate([{$match:{des:"tester"}},{$group:{_id:"$company_name",total:{$sum:"$salary_no"}}}]);
 { "_id" : "serum", "total" : 11999 }
 { "_id" : "INFOSYS", "total" : 31000 }
 { "_id" : "Infosys", "total" : 51000 }
 
-4)
+4)Returns names and _id in upper case and in alphabetical order.
 db.employee.aggregate([{$project: {fname: {$toUpper: "$name.fname"}}},{$sort:{fname:1}}]);
 { "_id" : ObjectId("5fdddf42fd9f4759b65a8fb2"), "fname" : "ANKITA" }
 { "_id" : ObjectId("5fdddf6afd9f4759b65a8fb5"), "fname" : "ATULYA" }
@@ -35,24 +37,27 @@ db.employee.aggregate([{$project: {fname: {$toUpper: "$name.fname"}}},{$sort:{fn
 { "_id" : ObjectId("5fdddf55fd9f4759b65a8fb3"), "fname" : "SHREYA" }
 { "_id" : ObjectId("5fdddf20fd9f4759b65a8fb0"), "fname" : "SUMEDH" }
 
-5)
+5)Count all records from collection
  db.employee.count();
 10
 > db.employee.aggregate([{$group:{_id:null,count:{$sum:1}}}]);
 { "_id" : null, "count" : 10 }
 
-6)
+
+6)For each unique Designation, find avg Salary and output is sorted by AvgSal
  db.employee.aggregate([{$group:{_id:{$toUpper: "$des"},avgsal:{$avg:"$salary_no"}}},{$sort:{avgsal:1}}]);
 { "_id" : "TESTER", "avgsal" : 28749.75 }
 { "_id" : "SENIOR DEVELOPER", "avgsal" : 35500 }
 { "_id" : "DEVELOPER", "avgsal" : 94000 }
 { "_id" : "HR", "avgsal" : 310000 }
 
-7)
+
+7)Return separates value in the Expertise array where Name of Employee="Swapnil"
 db.employee.find({"name.fname":"Sumedh"},{expertise:true}).pretty();
 { "_id" : ObjectId("5fdddf20fd9f4759b65a8fb0"), "expertise" : "web dev" }
 
-8)
+
+8)Return separates value in the Expertise array and return sum of each element of array
 db.employee.find({},{expertise:true}).pretty();
 { "_id" : ObjectId("5fddded9fd9f4759b65a8fae"), "expertise" : "web dev" }
 { "_id" : ObjectId("5fdddf0ffd9f4759b65a8faf"), "expertise" : "Recruitment" }
@@ -71,12 +76,14 @@ db.employee.find({},{expertise:true}).pretty();
 { "_id" : ObjectId("5fdde002fd9f4759b65a8fb6"), "expertise" : "android dev" }
 { "_id" : ObjectId("5fdde00efd9f4759b65a8fb7"), "expertise" : "app dev" }
 
-9)
+
+9)Return Array for Designation whose address is "Pune"
  db.employee.find({"address.padd.city":"pune"},{des:true}).pretty();
 { "_id" : ObjectId("5fddded9fd9f4759b65a8fae"), "des" : "tester" }
 { "_id" : ObjectId("5fdde00efd9f4759b65a8fb7"), "des" : "tester" }
 
-10)
+
+10)Return Max and Min Salary for each company
  db.employee.aggregate([{$group:{_id:{$toUpper:"$company_name"},max:{$max:"$salary_no"},min:{$min:"$salary_no"}}}]);
 { "_id" : "", "max" : 51000, "min" : 51000 }
 { "_id" : "TCS", "max" : 210000, "min" : 21000 }
@@ -86,7 +93,7 @@ db.employee.find({},{expertise:true}).pretty();
 
 
 -------------------------------------B PART------------------------------------------------------
-1)
+1)To Create Single Field Indexes on Designation
  db.employee.createIndex({des:1});
 {
         "createdCollectionAutomatically" : false,
@@ -95,7 +102,8 @@ db.employee.find({},{expertise:true}).pretty();
         "ok" : 1
 }
 
-2)
+
+2)To Create Compound Indexes on Name: 1, Age: -1
 db.employee.createIndex({age:-1,name:1});
 {
         "createdCollectionAutomatically" : false,
@@ -104,7 +112,8 @@ db.employee.createIndex({age:-1,name:1});
         "ok" : 1
 }
 
-3)
+
+3)To Create Multikey Indexes on Expertise array 
 db.employee.createIndex({address:1});
 {
         "createdCollectionAutomatically" : false,
@@ -113,7 +122,8 @@ db.employee.createIndex({address:1});
         "ok" : 1
 }
 
-4)
+
+4). Return a List of All Indexes on Collection
 > db.employee.getIndexes();
 [
         {
@@ -154,7 +164,8 @@ db.employee.createIndex({address:1});
         }
 ]
 
-5)
+
+5)Rebuild Indexes
  db.employee.reIndex();
 {
         "nIndexesWas" : 5,
@@ -200,11 +211,13 @@ db.employee.createIndex({address:1});
         "ok" : 1
 }
 
-6)
+
+6)Drop Index on Remove Specific Index
  db.employee.dropIndex("address_1");
 { "nIndexesWas" : 5, "ok" : 1 }
 
-7)
+
+7). Remove All Indexes except for the _id index from a collection
  db.employee.dropIndexes();
 {
         "nIndexesWas" : 4,
