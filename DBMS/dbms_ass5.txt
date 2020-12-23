@@ -28,13 +28,17 @@ DECLARE
     dateCurrent date;
     dateDiff integer;
     choice integer;
-    c_roll_no integer := 23;
+    c_roll_no integer;
     c_name varchar(20);
     c_amount integer;
     c_status varchar(1);
 BEGIN
-    c_amount := 0;
-    choice := 2;
+    c_amount := &c_amount;
+    choice := &choice;
+    c_roll_no := &c_roll_no;
+    IF c_roll_no<0 THEN 
+    RAISE EX;
+    END IF;
     CASE choice
         WHEN 1 then
             Select dateOfIssue,name into dateIssue,c_name from borrower where roll_no=c_roll_no and status = 'I' ;
@@ -84,4 +88,6 @@ BEGIN
             END IF;
         else dbms_output.put_line('No such choice');
     END CASE;
+    EXCEPTION WHEN ex THEN 
+        dbms_output.put_line('Exception! Invalid roll number');
 END;

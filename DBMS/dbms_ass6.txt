@@ -23,7 +23,7 @@ DECLARE
     MINUS
     SELECT * from N_rollno;
 BEGIN
-    no1 := 30;
+    no1 := &no1;
     OPEN c_roll(no1);
     LOOP
     FETCH c_roll into temp;

@@ -144,3 +144,132 @@ Output:
 ------------------------------------------------------------------------------------------
 
 6.
+A.CREATE VIEW BORROWER_VIEW AS SELECT * FROM Borrower;
+  Select * from BORROWER_VIEW;
+  Output:
+	+-----------+---------+
+	| cust_name | loan_no |
+	+-----------+---------+
+	| Shyam     | loan123 |
+	| Soham     | loan124 |
+	| Sumedh    | loan127 |
+	+-----------+---------+
+------------------------------------------------------------------------------------------
+
+i.
+insert into loan values ("loan128","Bund Garden",8000);
+INSERT INTO BORROWER_VIEW VALUES('TANMAY JAGTAP', 116);
+Tables before:
+BORROWER_VIEW:
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| Shyam     | loan123 |
+| Soham     | loan124 |
+| Sumedh    | loan127 |
++-----------+---------+
+Loan:
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan127 | Viman Nagar |  45000 |
++---------+-------------+--------+
+Tables after:
+BORROWER_VIEW:
++---------------+---------+
+| cust_name     | loan_no |
++---------------+---------+
+| Shyam         | loan123 |
+| Soham         | loan124 |
+| Sumedh        | loan127 |
+| Tanmay Jagtap | loan128 |
++---------------+---------+
+Loan:
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| loan123 | Viman Nagar |  35000 |
+| loan124 | Bund Garden |  40000 |
+| loan127 | Viman Nagar |  45000 |
+| loan128 | Bund Garden |   8000 |
++---------+-------------+--------+
+------------------------------------------------------------------------------------------
+
+ii.UPDATE BORROWER_VIEW SET cust_name="ALI ANEES" WHERE loan_no="loan128";
+   Output:
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| Shyam     | loan123 |
+| Soham     | loan124 |
+| Sumedh    | loan127 |
+| ALI ANEES | loan128 |
++-----------+---------+
+------------------------------------------------------------------------------------------
+
+iii.DELETE FROM Loan WHERE loan_no="loan128";
+	Output:
+BORROWER_VIEW:
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| Shyam     | loan123 |
+| Soham     | loan124 |
+| Sumedh    | loan127 |
++-----------+---------+
+------------------------------------------------------------------------------------------
+
+B.
+CREATE VIEW BOR_DEP AS SELECT acc_no, Depositor.cust_name, loan_no FROM Depositor INNER JOIN Borrower ON Depositor.cust_name=Borrower.cust_name;
+select * from BOR_DEP;
+Output:
++-------------+-----------+---------+
+| acc_no      | cust_name | loan_no |
++-------------+-----------+---------+
+| C8482381765 | Shyam     | loan123 |
+| C8382381671 | Soham     | loan124 |
++-------------+-----------+---------+
+------------------------------------------------------------------------------------------
+
+i.
+INSERT INTO Loan VALUES ("loan128","Bund Garden",8000);
+INSERT INTO Borrower VALUES('ALIASGAR ANEES', "loan128");
+INSERT INTO Depositor VALUES('ALIASGAR ANEES', "364");
+SELECT * FROM BOR_DEP;
+Output:
++-------------+----------------+---------+
+| acc_no      | cust_name      | loan_no |
++-------------+----------------+---------+
+| C8482381765 | Shyam          | loan123 |
+| C8382381671 | Soham          | loan124 |
+| 364         | ALIASGAR ANEES | loan128 |
++-------------+----------------+---------+
+------------------------------------------------------------------------------------------
+
+ii.
+UPDATE Depositor SET cust_name='ALI ANIS' WHERE acc_no="364";
+UPDATE Borrower SET cust_name='ALI ANIS' WHERE loan_no="loan128";
+SELECT * FROM BOR_DEP;
+Output:
++-------------+-----------+---------+
+| acc_no      | cust_name | loan_no |
++-------------+-----------+---------+
+| C8482381765 | Shyam     | loan123 |
+| C8382381671 | Soham     | loan124 |
+| 364         | ALI ANIS  | loan128 |
++-------------+-----------+---------+
+------------------------------------------------------------------------------------------
+
+iii.
+DELETE FROM Depositor WHERE acc_no="364";
+DELETE FROM loan WHERE loan_no="loan128";
+SELECT * FROM BOR_DEP;
+Output:
++-------------+-----------+---------+
+| acc_no      | cust_name | loan_no |
++-------------+-----------+---------+
+| C8482381765 | Shyam     | loan123 |
+| C8382381671 | Soham     | loan124 |
++-------------+-----------+---------+	
