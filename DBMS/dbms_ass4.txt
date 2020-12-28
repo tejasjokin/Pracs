@@ -1,4 +1,9 @@
-1.
+Name: Tejas Rajesh Machkar
+Roll No: 23
+Class: TE2 Comp
+PRN: F18112025
+
+1.Retrieve the address of customer Fname as 'xyz' and Lname as 'pqr'
 select * from cust_mer;
 +---------+----------+---------+
 | cust_no | fname    | lname   |
@@ -24,7 +29,7 @@ Output:
 +------------------------------+---------------------+-------------+------+---------+
 ------------------------------------------------------------------------------------------
 
-2.
+2.List the customer holding fixed deposit of amount more than 5000
 select * from cust_mer;
 +---------+----------+---------+
 | cust_no | fname    | lname   |
@@ -57,7 +62,7 @@ Output:
 ------------------------------------------------------------------------------------------
 
 
-3.
+3.List the employee details along with branch names to which they belong
 select * from emp_mstr;
 +-------+----------+----------+---------+----------+---------------+----------+
 | empno | fname    | mname    | lname   | dept     | desg          | branchno |
@@ -86,7 +91,7 @@ Output:
 +-------+----------+----------+---------+----------+---------------+----------+---------+
 ------------------------------------------------------------------------------------------
 
-4.
+4.List the employee details along with contact details using left outer join & right join
 select * from emp_mstr;
 +-------+----------+----------+---------+----------+---------------+----------+
 | empno | fname    | mname    | lname   | dept     | desg          | branchno |
@@ -117,7 +122,7 @@ Output:
 +-------+----------+----------+---------+-----------+------------+
 ------------------------------------------------------------------------------------------
 
-5.
+5.List the customer who do not have bank branches in their vicinity
 select * from cust_mer;
 +---------+----------+---------+
 | cust_no | fname    | lname   |
@@ -144,7 +149,8 @@ Output:
 ------------------------------------------------------------------------------------------
 
 6.
-A.CREATE VIEW BORROWER_VIEW AS SELECT * FROM Borrower;
+A.Create View on borrower table by selecting any two columns and perform insert update delete  operations
+CREATE VIEW BORROWER_VIEW AS SELECT * FROM Borrower;
   Select * from BORROWER_VIEW;
   Output:
 	+-----------+---------+
@@ -221,7 +227,7 @@ BORROWER_VIEW:
 +-----------+---------+
 ------------------------------------------------------------------------------------------
 
-B.
+B. Create view on borrower and depositor table by selecting any one column from each table
 CREATE VIEW BOR_DEP AS SELECT acc_no, Depositor.cust_name, loan_no FROM Depositor INNER JOIN Borrower ON Depositor.cust_name=Borrower.cust_name;
 select * from BOR_DEP;
 Output:

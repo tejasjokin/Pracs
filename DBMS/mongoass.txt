@@ -1,4 +1,10 @@
- use empdb;
+Name: Tejas Rajesh Machkar
+Roll No: 23
+Class: TE2 Comp
+PRN: F18112025
+
+
+use empdb;
 switched to db empdb
 > db;
 empdb

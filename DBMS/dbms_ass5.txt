@@ -1,3 +1,8 @@
+Name: Tejas Rajesh Machkar
+Roll No: 23
+Class: TE2 Comp
+PRN: F18112025
+
 create table borrower(
     roll_no integer primary key,
     name varchar2(20) not null,

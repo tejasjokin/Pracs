@@ -1,3 +1,8 @@
+Name: Tejas Rajesh Machkar
+Roll No: 23
+Class: TE2 Comp
+PRN: F18112025
+
 create table O_rollno(
     roll_no number primary key,
     name varchar(25) not null

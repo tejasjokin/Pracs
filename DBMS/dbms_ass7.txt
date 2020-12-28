@@ -1,3 +1,8 @@
+Name: Tejas Rajesh Machkar
+Roll No: 23
+Class: TE2 Comp
+PRN: F18112025
+
 CREATE OR REPLACE PROCEDURE proc_Grade(roll NUMBER,name VARCHAR,totmarks NUMBER) IS
 BEGIN
     IF(totmarks >= 990 and totmarks <= 1500) THEN
